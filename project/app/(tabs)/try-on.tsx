@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import { Image as ImageIcon, Shirt as Tshirt, Camera, RefreshCw, Download, Share2 } from 'lucide-react-native';
 import ImageUploadCard from '@/components/try-on/ImageUploadCard';
 import ProgressBar from '@/components/ui/ProgressBar';
+import uploadImagesAndGenerateOutfit from '../../controllers/imageGeneration';
 
 export default function TryOnScreen() {
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
@@ -73,7 +74,7 @@ export default function TryOnScreen() {
     }
   };
 
-  const generateOutfit = () => {
+  const generateOutfit = async() => {
     if (!userPhoto || !clothingPhoto) {
       Alert.alert(
         'Missing Images',
@@ -85,23 +86,34 @@ export default function TryOnScreen() {
     
     setIsGenerating(true);
     setProgress(0);
+
+    // call openAI
+    const resultUrl = await uploadImagesAndGenerateOutfit.uploadImagesAndGenerateOutfit(userPhoto, clothingPhoto);
+    setResultPhoto(resultUrl);
+
+    setProgress(100);
+    setIsGenerating(false);
+
+
+
+    // setProgress(0);
     
-    const interval = setInterval(() => {
-      setProgress((prevProgress) => {
-        const newProgress = prevProgress + 0.05;
+    // const interval = setInterval(() => {
+    //   setProgress((prevProgress) => {
+    //     const newProgress = prevProgress + 0.05;
         
-        if (newProgress >= 1) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setResultPhoto("https://images.pexels.com/photos/2466756/pexels-photo-2466756.jpeg");
-            setIsGenerating(false);
-          }, 500);
-          return 1;
-        }
+    //     if (newProgress >= 1) {
+    //       clearInterval(interval);
+    //       setTimeout(() => {
+    //         setResultPhoto("https://images.pexels.com/photos/2466756/pexels-photo-2466756.jpeg");
+    //         setIsGenerating(false);
+    //       }, 500);
+    //       return 1;
+    //     }
         
-        return newProgress;
-      });
-    }, 200);
+    //     return newProgress;
+    //   });
+    // }, 200);
   };
 
   const resetAll = () => {
