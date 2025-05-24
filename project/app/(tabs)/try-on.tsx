@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import { Image as ImageIcon, Shirt as Tshirt, Camera, RefreshCw, Download, Share2 } from 'lucide-react-native';
 import ImageUploadCard from '@/components/try-on/ImageUploadCard';
 import ProgressBar from '@/components/ui/ProgressBar';
-import uploadImagesAndGenerateOutfit from '../../controllers/imageGeneration';
+import { uploadImagesAndGenerateOutfit } from '../../controllers/imageGeneration';
 
 export default function TryOnScreen() {
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
@@ -88,7 +88,7 @@ export default function TryOnScreen() {
     setProgress(0);
 
     // call openAI
-    const resultUrl = await uploadImagesAndGenerateOutfit.uploadImagesAndGenerateOutfit(userPhoto, clothingPhoto);
+    const resultUrl = await uploadImagesAndGenerateOutfit(userPhoto, clothingPhoto);
     setResultPhoto(resultUrl);
 
     setProgress(100);

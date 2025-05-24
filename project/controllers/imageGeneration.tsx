@@ -1,12 +1,10 @@
 import * as FileSystem from 'expo-file-system';
-import { Buffer } from 'buffer';
 
-const OPENAI_CHAT_COMPLETION_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+import OpenAI from "openai";
 
-const IMAGE_COMBINATION_PROMPT =
-  'Merge these images to create some pretty scenary.';
-
-const OPENAI_API_KEY = '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';
+const openai = new OpenAI({
+  apiKey: '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'
+});
 
 const uriToBase64 = async (uri: string): Promise<string> => {
   try {
@@ -20,67 +18,65 @@ const uriToBase64 = async (uri: string): Promise<string> => {
   }
 };
 
+const saveBase64AsImageAndGetUri = async (base64: string): Promise<string> => {
+  const fileUri = `${FileSystem.cacheDirectory}generated-image.png`;
+  await FileSystem.writeAsStringAsync(fileUri, base64, {
+    encoding: FileSystem.EncodingType.Base64,
+  });
+  return fileUri;
+};
+
 const uploadImagesAndGenerateOutfit = async (
   personPhotoUri: string,
   clothingPhotoUri: string
 ): Promise<string | null> => {
-  try {
-    const base64Image1 = await uriToBase64(personPhotoUri);
-    const base64Image2 = await uriToBase64(clothingPhotoUri);
-    console.log('About to send API call');
+    try {
 
-    const response = await fetch(OPENAI_CHAT_COMPLETION_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
+      console.log('called function')
+      const base64Image1 = await uriToBase64(personPhotoUri);
+      const base64Image2 = await uriToBase64(clothingPhotoUri);
+      console.log('About to send API call');
+
+      const response = await openai.responses.create({
+        model: "gpt-4.1",
+        input: [
           {
-            role: 'user',
+            role: "user",
             content: [
-              { type: 'text', text: IMAGE_COMBINATION_PROMPT },
+              { type: "input_text", text: "merge both images" },
               {
-                type: 'image_url',
-                image_url: {
-                  url: `data:image/jpeg;base64,${base64Image1}`,
-                },
+                type: "input_image",
+                image_url: `data:image/jpeg;base64,${base64Image1}`,
               },
               {
-                type: 'image_url',
-                image_url: {
-                  url: `data:image/jpeg;base64,${base64Image2}`,
-                },
-              },
+                type: "input_image",
+                image_url: `data:image/jpeg;base64,${base64Image2}`,
+              }
             ],
-          },
+          }
         ],
-        max_tokens: 1000,
-      }),
+        tools: [{ type: "image_generation" }],
     });
 
-    console.log('Got result from OpenAI');
-    const json = await response.json();
-    console.log(json);
-  
-    console.log("MESSAGE_____________________________________________ \n \n \n");
-    // console.log(json.choices[0].message)
-    if (!response.ok) {
-      console.error('OpenAI Error:', json);
+    const imageData = response.output
+    .filter((output) => output.type === "image_generation_call")
+    .map((output) => output.result);
+
+    if (imageData.length > 0) {
+      const imageBase64 = imageData[0];
+      const imageUri = await saveBase64AsImageAndGetUri(imageBase64);
+      return imageUri;
+    } else {
+      console.log(response.output.content);
       return null;
     }
 
-    const content = json.choices?.[0]?.message?.content || '';
-    const urlMatch = content.match(/https?:\/\/[^\s]+/);
-    return urlMatch ? urlMatch[0] : null;
-  } catch (error) {
-    console.error('Error generating outfit image:', error);
-    return null;
-  }
-};
+    } catch (err) {
+      console.error("Failed to upload images and generate output:", err);
+      return null;
+    }
+  };
 
-export default {
-  uploadImagesAndGenerateOutfit,
-};
+  export {
+    uploadImagesAndGenerateOutfit
+  }
