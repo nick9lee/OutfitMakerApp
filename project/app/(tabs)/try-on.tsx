@@ -41,16 +41,18 @@ export default function TryOnScreen() {
   const pickImage = async (type: 'user' | 'clothing') => {
     try {
       const options: ImagePicker.ImagePickerOptions = {
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ImagePicker.MediaTypeOptions.images,
         allowsEditing: true,
         aspect: [3, 4],
         quality: 1,
         presentationStyle: Platform.OS === 'ios' ? 'pageSheet' : undefined,
+        base64: false,
       };
 
       const result = await ImagePicker.launchImageLibraryAsync(options);
 
       if (!result.canceled && result.assets[0]) {
+        // On iOS, we need to handle the asset URI differently
         const uri = Platform.OS === 'ios' 
           ? result.assets[0].uri.replace('file://', '') 
           : result.assets[0].uri;
