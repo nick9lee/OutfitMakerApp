@@ -6,6 +6,11 @@ const openai = new OpenAI({
   apiKey: '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'
 });
 
+const TESTPROMPT = "merge both images and make a pretty scenary";
+
+const PROMPT = "Using the two provided images—one of a person and one of a clothing item/outfit. Digitally style a complete outfit centered around the clothing item/outfit. Virtually dress the person in the styled outfit, ensuring it looks realistic and well-fitted. The new outfit should complement the clothing item, suit the person’s body type, and reflect a cohesive, fashionable look. Show the person wearing the full outfit in a natural pose and setting"
+
+
 const uriToBase64 = async (uri: string): Promise<string> => {
   try {
     const fileBase64 = await FileSystem.readAsStringAsync(uri, {
@@ -43,7 +48,7 @@ const uploadImagesAndGenerateOutfit = async (
           {
             role: "user",
             content: [
-              { type: "input_text", text: "merge both images" },
+              { type: "input_text", text: PROMPT },
               {
                 type: "input_image",
                 image_url: `data:image/jpeg;base64,${base64Image1}`,

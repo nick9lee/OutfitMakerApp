@@ -95,7 +95,7 @@ export default function ProfileScreen() {
           </View>
         </View>
         
-        <Text style={styles.versionText}>FitCheck v1.0.0</Text>
+        <Text style={styles.versionText}>GLAMR v1.0.0</Text>
       </ScrollView>
     </View>
   );

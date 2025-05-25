@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { View, StyleSheet, Platform } from 'react-native';
-import { Chrome as Home, Shirt as Tshirt, Album, User } from 'lucide-react-native';
+import { House as Home, Shirt as Tshirt, Album, User } from 'lucide-react-native';
 
 import { COLORS } from '@/constants/Colors';
 import TabBarLabel from '@/components/ui/TabBarLabel';

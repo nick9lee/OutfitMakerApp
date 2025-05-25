@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "FitCheck",
+    "name": "GLAMR",
     "slug": "bolt-expo-nativewind",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,11 +10,11 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.fitcheck.app",
+      "bundleIdentifier": "com.glamr.app",
       "infoPlist": {
-        "NSCameraUsageDescription": "FitCheck needs access to your camera to take photos for virtual try-on.",
-        "NSPhotoLibraryUsageDescription": "FitCheck needs access to your photo library to select photos for virtual try-on.",
-        "NSPhotoLibraryAddUsageDescription": "FitCheck needs access to your photo library to save your virtual try-on photos."
+        "NSCameraUsageDescription": "GLAMR needs access to your camera to take photos for virtual try-on.",
+        "NSPhotoLibraryUsageDescription": "GLAMR needs access to your photo library to select photos for virtual try-on.",
+        "NSPhotoLibraryAddUsageDescription": "GLAMR needs access to your photo library to save your virtual try-on photos."
       }
     },
     "web": {
@@ -29,13 +29,13 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "FitCheck needs access to your camera to take photos for virtual try-on."
+          "cameraPermission": "GLAMR needs access to your camera to take photos for virtual try-on."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "FitCheck needs access to your photo library to select photos for virtual try-on."
+          "photosPermission": "GLAMR needs access to your photo library to select photos for virtual try-on."
         }
       ]
     ],

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { COLORS } from '@/constants/Colors';
 import { SPACING } from '@/constants/Spacing';
 import Button from '@/components/ui/Button';
-import { ArrowRight, Wand as Wand2 } from 'lucide-react-native';
+import { ArrowRight, WandSparkles as Wand2 } from 'lucide-react-native';
 import FeaturedOutfit from '@/components/home/FeaturedOutfit';
 import { TYPOGRAPHY } from '@/constants/Typography';
 
@@ -18,31 +18,31 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-          <Text style={styles.title}>FitCheck</Text>
-          <Text style={styles.subtitle}>Virtual Try-On Experience</Text>
+          <Text style={styles.title}>GLAMR</Text>
+          <Text style={styles.subtitle}>Try-On Experience</Text>
         </View>
 
         <View style={styles.heroContainer}>
           <Image
-            source={{ uri: "https://images.pexels.com/photos/5384423/pexels-photo-5384423.jpeg" }}
+            source={{ uri: "https://images.unsplash.com/photo-1682354928541-a9414fad7cb3?q=80&w=4000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" }}
             style={styles.heroImage}
             resizeMode="cover"
           />
           <View style={styles.heroOverlay}>
             <Text style={styles.heroTitle}>See Yourself in New Styles</Text>
             <Text style={styles.heroSubtitle}>
-              Try on clothes virtually before you buy
+              Try on clothes virtually
             </Text>
             <Button 
               onPress={handleTryOnPress} 
-              title="Try Now" 
+              title="Style Now" 
               icon={<Wand2 size={20} color={COLORS.white} />}
               style={styles.heroButton}
             />
           </View>
         </View>
 
-        <View style={styles.featuredSection}>
+        {/* <View style={styles.featuredSection}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Featured Outfits</Text>
             <Pressable onPress={() => router.push('/wardrobe')}>
@@ -51,9 +51,9 @@ export default function HomeScreen() {
                 <ArrowRight size={16} color={COLORS.green} />
               </View>
             </Pressable>
-          </View>
+          </View> */}
           
-          <ScrollView 
+          {/* <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.featuredOutfitsContainer}
@@ -74,7 +74,7 @@ export default function HomeScreen() {
               items={2}
             />
           </ScrollView>
-        </View>
+        </View> */}
 
         <View style={styles.howItWorksSection}>
           <Text style={styles.sectionTitle}>How It Works</Text>

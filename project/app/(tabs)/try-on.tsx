@@ -87,33 +87,27 @@ export default function TryOnScreen() {
     setIsGenerating(true);
     setProgress(0);
 
-    // call openAI
+    const interval = setInterval(() => {
+      setProgress((prevProgress) => {
+        const newProgress = prevProgress + 0.05;
+        
+        if (newProgress >= 1) {
+          clearInterval(interval);
+          setTimeout(() => {
+          }, 180000);
+          return 1;
+        }
+        
+        return newProgress;
+      });
+    }, 6000);
+
     const resultUrl = await uploadImagesAndGenerateOutfit(userPhoto, clothingPhoto);
     setResultPhoto(resultUrl);
 
     setProgress(100);
     setIsGenerating(false);
-
-
-
-    // setProgress(0);
     
-    // const interval = setInterval(() => {
-    //   setProgress((prevProgress) => {
-    //     const newProgress = prevProgress + 0.05;
-        
-    //     if (newProgress >= 1) {
-    //       clearInterval(interval);
-    //       setTimeout(() => {
-    //         setResultPhoto("https://images.pexels.com/photos/2466756/pexels-photo-2466756.jpeg");
-    //         setIsGenerating(false);
-    //       }, 500);
-    //       return 1;
-    //     }
-        
-    //     return newProgress;
-    //   });
-    // }, 200);
   };
 
   const resetAll = () => {
