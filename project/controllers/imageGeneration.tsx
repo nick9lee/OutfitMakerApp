@@ -3,7 +3,7 @@ import * as FileSystem from 'expo-file-system';
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: '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'
+  apiKey: 'apikey'
 });
 
 const TESTPROMPT = "merge both images and make a pretty scenary";
